@@ -20,9 +20,62 @@
   </div>
   <div class="cat-details">
     <h1>{{ collector.name }}</h1>
-    <h2>{{ collector.website }}</h2>
+    <h2><a href="{{ collector.website }}" target="_blank">{{collector.website}}</a></h2>
     <p>{{ collector.description }}</p>
+    <div class="cat-actions">
+      <a href="{% url 'collectors_update' collector.id %}" class="btn warn">Edit</a>
+      <a href="{% url 'collectors_delete' collector.id %}" class="btn danger">Delete</a>
+    </div>
   </div>
 </section>
+<div class="feedings-toy-container">
+  <section class="feedings">
+    <div class="subsection-title">
+      <h2>Websites</h2>
+      <img 
+        src="{% static 'images/cat-cone.svg' %}" 
+        alt="An ice cream cone cat"
+      />
+      <img 
+        src="{% static 'images/cat-onigiri.svg' %}"
+        alt="A cat as onigiri"
+      />
+      <img 
+        src="{% static 'images/kitty-kabob.svg' %}" 
+        alt="A kabob of kittens"
+      />
+    </div>
+    <h3>Add a website</h3>
+    <form
+      action="{% url 'add_website' collector.id %}"
+      method="post" 
+      class="subsection-content"
+    >
+      {% csrf_token %}
+      {{ website_form.as_p }}
+      <button type="submit" class="btn submit">Add Website</button>
+    </form>
+    <h3>Websites</h3>
+    {% if collector.website_set.all.count %}
+    <table>
+      <thead>
+        <tr><th>Site</th><th>Type</th></tr>
+      </thead>
+      <tbody>
+        {% for website in collector.website_set.all %}
+          <tr>
+            <td>{{website.website}}</td>
+            <td>{{website.get_type_display}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <div class="subsection-content">
+        <p>{{collector.name}} has no websites</p>
+      </div>
+    {% endif %}
+  </section>
+</div>
 
 {% endblock %}

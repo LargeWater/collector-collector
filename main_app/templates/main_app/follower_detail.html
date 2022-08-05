@@ -1,0 +1,24 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/followers/follower-detail.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+  
+<div class="card" style="border-color: {{ follower.color }}">
+  <div class="card-bg" style="background-color: {{ follower.color }}"></div>
+  <div class="card-content">
+    <h2>{{ follower.name }}</h2>
+    <p>their color is {{ follower.color }} </p>
+  </div>
+</div>
+<a href="{% url 'followers_update' follower.id %}" class="btn warn">Edit</a>
+<a href="{% url 'followers_delete' follower.id %}" class="btn danger">Delete</a>
+
+{% endblock %}

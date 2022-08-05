@@ -1,0 +1,36 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/followers/follower-index.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+  <h1>All Cat Toys</h1>
+  <img src="{% static 'images/string.svg' %}" alt="A ball of string" />
+  <img src="{% static 'images/mouse.svg' %}" alt="A mouse" />
+  <img src="{% static 'images/post.svg' %}" alt="A scratching post" />
+  <img src="{% static 'images/fish.svg' %}" alt="A fishy toy" />
+</section>
+
+<section class="card-container">
+  {% for follower in follower_list %}
+  <div class="card" style="border-color: {{ follower.color }}">
+    <div class="card-bg" style="background-color: {{ follower.color }}"></div>
+    <a href="{% url 'followers_detail' follower.id %}">
+      <div class="card-content">
+        <h2>{{ follower.name }}</h2>
+        <p>their color is {{ follower.color }}</p>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</section>
+
+{% endblock %}
