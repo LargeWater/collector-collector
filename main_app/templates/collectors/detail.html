@@ -64,7 +64,7 @@
       <tbody>
         {% for website in collector.website_set.all %}
           <tr>
-            <td>{{website.website}}</td>
+            <td><a href="{{website.website}}" target="_blank">{{website.website}}</a></td>
             <td>{{website.get_type_display}}</td>
           </tr>
         {% endfor %}
@@ -76,6 +76,55 @@
       </div>
     {% endif %}
   </section>
+  <section class="toys">
+    <div class="subsection-title">
+      <h2>Followers</h2>
+      <img src="{% static 'images/string.svg' %}" alt="A ball of string" />
+      <img src="{% static 'images/mouse.svg' %}" alt="A mouse" />
+      <img src="{% static 'images/fish.svg' %}" alt="A fishy toy" />
+    </div>
+    <h3>{{ collector.name }}'s Followers</h3>
+    <div class="subsection-content">
+      {% if collector.followers.count %}
+        {% for follower in collector.followers.all %}
+          <div class="toy-container">
+            <div 
+              class="color-block"
+              style="background-color: {{ follower.color }}"
+            ></div>
+            <a href="{% url 'followers_detail' follower.id %}">
+              <p>A {{ follower.color }} {{ follower.name }}</p>
+            </a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-toys">{{collector.name}} doesn't have any followers 😞</p>
+      {% endif %}
+    </div>
+  <h3>Available Followers</h3>
+  <div class="subsection-content">
+  {% if followers.count %}
+    {% for follower in followers.all %}
+      <div class="toy-container">
+        <div 
+          class="color-block"
+          style="background-color: {{ follower.color }}"
+        ></div>
+        <a href="{% url 'followers_detail' follower.id %}">
+          <p>A {{ follower.color }} {{ follower.name }}</p>
+        </a>
+        <form action="{% url 'assoc_follower' collector.id follower.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn submit">Give follower</button>
+        </form>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="all-toys">
+      {{collector.name}} already has all the available followers 🥳
+    </p>
+  {% endif %}
+  </div>
 </div>
 
 {% endblock %}

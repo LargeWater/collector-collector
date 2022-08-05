@@ -23,11 +23,17 @@
     </div>
     <nav>
       <ul>
+        {% if user.is_authenticated %}
         <li> <a href="/">Home</a></li>
         <li> <a href="{% url 'collectors_index' %}">All Collectors</a></li>
         <li> <a href="{% url 'collectors_create' %}">Add a Collector</a></li>
         <li> <a href="{% url 'followers_index' %}">All Followers</a></li>
         <li> <a href="{% url 'followers_create' %}">Add a Follower</a></li>
+        <li> <a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+        <li> <a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        {% endif %}
       </ul>
     </nav>
   </header>
